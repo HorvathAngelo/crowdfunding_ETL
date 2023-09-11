@@ -10,7 +10,15 @@ CREATE TABLE subcategory (
     subcategory VARCHAR(255) NOT NULL
 );
 
--- Create the 'campaign' table
+-- Create the 'contact_info' table
+CREATE TABLE contact_info (
+    contact_id SERIAL PRIMARY KEY,
+    first_name VARCHAR(255),
+    last_name VARCHAR(255),
+    email VARCHAR(255) UNIQUE NOT NULL
+);
+
+-- Create the 'campaign' table with correct relationships
 CREATE TABLE campaign (
     cf_id SERIAL PRIMARY KEY,
     contact_id INT NOT NULL,
@@ -23,16 +31,11 @@ CREATE TABLE campaign (
     currency VARCHAR(255),
     staff_pick BOOLEAN,
     spotlight BOOLEAN,
-    category_subcategory VARCHAR(255),
+    category_id INT,
+    subcategory_id INT,
     launch_date DATE,
     end_date DATE,
-    FOREIGN KEY (contact_id) REFERENCES contact_info(contact_id)
-);
-
--- Create the 'contact_info' table
-CREATE TABLE contact_info (
-    contact_id SERIAL PRIMARY KEY,
-    first_name VARCHAR(255),
-    last_name VARCHAR(255),
-    email VARCHAR(255) UNIQUE NOT NULL
+    FOREIGN KEY (contact_id) REFERENCES contact_info(contact_id),
+    FOREIGN KEY (category_id) REFERENCES category(category_id),
+    FOREIGN KEY (subcategory_id) REFERENCES subcategory(subcategory_id)
 );
